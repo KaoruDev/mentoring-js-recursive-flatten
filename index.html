@@ -1,70 +1,84 @@
 <html>
 <head>
+  <meta charset="utf8">
   <title></title>
+  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
 </head>
 <body>
-<script type="text/javascript">
+  <div id="mocha"></div>
 
-var hardArry = [[2, "cat"], 3, "hi", [[1]]]
-var myArray = ["Greg", "Horne", 1, 3, 5, "A", 3, "B"]
-var myArray2 = ["Cat", 2, "Home", 3, [[2,"Kaoru",2],1]]
+  <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.4.1/chai.min.js"></script>
+  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
 
-var isNumber = function (value) { return Number.isFinite(value) }
+  <script src="lib/array-flatten.js"></script>
+  <script src="spec/array-spec.js"></script>
+
+  <script type="text/javascript">
+    window.expect = chai.expect;
+
+    mocha.run();
+
+    var hardArry = [[2, "cat"], 3, "hi", [[1]]]
+    var myArray = ["Greg", "Horne", 1, 3, 5, "A", 3, "B"]
+    var myArray2 = ["Cat", 2, "Home", 3, [[2,"Kaoru",2],1]]
+
+    var isNumber = function (value) { return Number.isFinite(value) }
 
 
-var flattenArray = function(inputArray, returnArray) {
+    var flattenArray = function(inputArray, returnArray) {
 
-  inputArray.map( function(elem) {
-    if (Array.isArray(elem)){
-      flattenArray(elem, returnArray)
-    } else {
-      returnArray.push(elem)
-    }
-  })
-  return returnArray
-}
-
-
-var sumNumbersInArray = function(inputArray) {
-
-  //inputArray.sort()
-
-  return inputArray.reduce(function (sum, next) {
-    if (sum instanceof Array) {
-      sum = sumNumbersInArray(sum);
-    }
-
-    if (next instanceof Array) {
-      next = sumNumbersInArray(next);
+      inputArray.map( function(elem) {
+        if (Array.isArray(elem)){
+          flattenArray(elem, returnArray)
+        } else {
+          returnArray.push(elem)
+        }
+      })
+      return returnArray
     }
 
-    if (!isNumber(sum)) {
-      sum = 0;
+
+    var sumNumbersInArray = function(inputArray) {
+
+      //inputArray.sort()
+
+      return inputArray.reduce(function (sum, next) {
+        if (sum instanceof Array) {
+          sum = sumNumbersInArray(sum);
+        }
+
+        if (next instanceof Array) {
+          next = sumNumbersInArray(next);
+        }
+
+        if (!isNumber(sum)) {
+          sum = 0;
+        }
+
+        if (!isNumber(next)) {
+          return sum;
+        } else {
+          return sum + next;
+        }
+
+      })
+      return sum
     }
 
-    if (!isNumber(next)) {
-      return sum;
-    } else {
-      return sum + next;
-    }
+    console.log(sumNumbersInArray(hardArry));
+    console.log(sumNumbersInArray(myArray));
+    console.log(sumNumbersInArray(myArray2));
 
-  })
-  return sum
-}
+    // console.log(sumNumbersInArray(flattenArray(hardArry, returnArray = [])))
+    // console.log("")
 
-console.log(sumNumbersInArray(hardArry));
-console.log(sumNumbersInArray(myArray));
-console.log(sumNumbersInArray(myArray2));
+    // console.log(sumNumbersInArray(flattenArray(myArray, returnArray = [])))
+    // console.log("")
 
-// console.log(sumNumbersInArray(flattenArray(hardArry, returnArray = [])))
-// console.log("")
+    // console.log(sumNumbersInArray(flattenArray(myArray2, returnArray = [])))
+    // console.log("")
 
-// console.log(sumNumbersInArray(flattenArray(myArray, returnArray = [])))
-// console.log("")
-
-// console.log(sumNumbersInArray(flattenArray(myArray2, returnArray = [])))
-// console.log("")
-
-</script>
+  </script>
 </body>
 </html>
