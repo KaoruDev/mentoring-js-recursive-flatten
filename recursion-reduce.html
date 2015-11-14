@@ -1,0 +1,70 @@
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+<script type="text/javascript">
+
+var hardArry = [[2, "cat"], 3, "hi", [[1]]]
+var myArray = ["Greg", "Horne", 1, 3, 5, "A", 3, "B"]
+var myArray2 = ["Cat", 2, "Home", 3, [[2,"Kaoru",2],1]]
+
+var isNumber = function (value) { return Number.isFinite(value) }
+
+
+var flattenArray = function(inputArray, returnArray) {
+
+  inputArray.map( function(elem) {
+    if (Array.isArray(elem)){
+      flattenArray(elem, returnArray)
+    } else {
+      returnArray.push(elem)
+    }
+  })
+  return returnArray
+}
+
+
+var sumNumbersInArray = function(inputArray) {
+
+  //inputArray.sort()
+
+  return inputArray.reduce(function (sum, next) {
+    if (sum instanceof Array) {
+      sum = sumNumbersInArray(sum);
+    }
+
+    if (next instanceof Array) {
+      next = sumNumbersInArray(next);
+    }
+
+    if (!isNumber(sum)) {
+      sum = 0;
+    }
+
+    if (!isNumber(next)) {
+      return sum;
+    } else {
+      return sum + next;
+    }
+
+  })
+  return sum
+}
+
+console.log(sumNumbersInArray(hardArry));
+console.log(sumNumbersInArray(myArray));
+console.log(sumNumbersInArray(myArray2));
+
+// console.log(sumNumbersInArray(flattenArray(hardArry, returnArray = [])))
+// console.log("")
+
+// console.log(sumNumbersInArray(flattenArray(myArray, returnArray = [])))
+// console.log("")
+
+// console.log(sumNumbersInArray(flattenArray(myArray2, returnArray = [])))
+// console.log("")
+
+</script>
+</body>
+</html>
