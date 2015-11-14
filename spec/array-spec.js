@@ -22,7 +22,7 @@ describe('window.flatten()', function () {
   describe('when passed a n dimension array', function () {
     it('will return a one dimension array', function () {
       var array = _.times(5, function (num) {
-        return generateNLevelArray(_.random(1, 5), num);
+        return generateNLevelArray(_.random(1, 5), num + 1);
       });
 
       expect(flatten(array)).to.eql([1, 2, 3, 4, 5]);
